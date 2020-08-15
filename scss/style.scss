@@ -1,0 +1,277 @@
+@import 'config';
+
+:root {
+	--mobile-width: 600px;
+
+	--navbar-height: 10vh;
+
+	--accent-color: #f75d0b;
+}
+
+#navbar {
+	position: sticky;
+	height: var(--navbar-height);
+	display: flex;
+	align-items: center;
+
+	box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.4);
+
+	#logo {
+		a {
+			font-size: 3rem;
+		}
+
+		margin: 2em;
+	}
+
+	#menu {
+		width: 20%;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+
+		a {
+			font-size: 1.25rem;
+		}
+	}
+}
+
+// Slider
+.cd-slider {
+	width: 100%;
+	height: calc(100vh - var(--navbar-height));
+
+	position: relative;
+	right: 10px;
+
+	overflow: hidden;
+
+	// Slide
+	li {
+		width: 100%;
+		height: 100%;
+
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		visibility: hidden;
+		transition: visibility 0s 1s;
+		will-change: visibility;
+
+		.image {
+			position: absolute;
+			padding: 50px;
+			top: 0;
+			left: 0;
+			width: 70%;
+			height: 100%;
+			background-size: cover;
+			background-position: 50% 50%;
+			clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+			transition: clip-path 0.5s cubic-bezier(0.99, 0.01, 0.45, 0.9) 0.5s;
+			will-change: clip-path;
+		}
+
+		.content {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 100%;
+			height: 100%;
+			padding: 2rem 0 0 2rem;
+			font-size: 11rem;
+			text-align: right;
+
+			.slide-title {
+				font-size: 17rem;
+				display: block;
+				padding-bottom: 0.1em;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				transform: translateY(-30%);
+				opacity: 0;
+				transition: transform 0.5s, opacity 0.5s;
+				will-change: transform, opacity;
+				backdrop-filter: blur(5px);
+				// background-color: #f00;
+
+				// &::after,
+				// &::before {
+				// 	content: '';
+				// 	width: 5rem;
+				// 	height: 5rem;
+				// 	backdrop-filter: blur(5px);
+				// }
+			}
+
+			a {
+				display: inline-block;
+				font-size: 2rem;
+				text-transform: lowercase;
+				padding: 1.5rem;
+				opacity: 0;
+				transform: translateY(-100%);
+				transition: transform 0.5s 0.1s, opacity 0.5s 0.1s,
+					color 150ms ease-out 0s;
+
+				will-change: transform, opacity, color;
+			}
+		}
+
+		// Current Slide
+		&.current {
+			visibility: visible;
+			transition-delay: 0s;
+
+			.image {
+				clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+			}
+
+			.content {
+				h2 {
+					transform: translateY(0);
+					opacity: 1;
+					transition-delay: 1s;
+				}
+
+				a {
+					transform: translateY(0);
+					opacity: 1;
+					transition-delay: 1.1s;
+					transition: transform 0.5s, opacity 0.5s,
+						color 150ms ease-out 0s;
+				}
+			}
+		}
+
+		// Prev Slide
+		&.prev_slide .image {
+			clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+		}
+	}
+
+	// Flechas de navegacion
+	.nav_arrows {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		z-index: 2;
+
+		.nav_arrow,
+		.counter {
+			vertical-align: middle;
+		}
+
+		.nav_arrow {
+			position: relative;
+			display: inline-block;
+			height: 5rem;
+			width: 5rem;
+			cursor: pointer;
+
+			// Punta de la flecha
+			&::before {
+				content: '';
+				width: 0;
+				height: 0;
+
+				position: absolute;
+				top: 50%;
+				left: 0;
+
+				border: 0.8rem solid transparent;
+				border-right-width: 1rem;
+				border-right-color: #000;
+				border-left-width: 0;
+
+				transform: translateY(-50%);
+				transition: border-right-color 300ms, border-left-color 300ms;
+			}
+
+			// Cuerpo de la flecha
+			&::after {
+				content: '';
+				height: 0.1rem;
+				width: 2.5rem;
+				min-height: 1px;
+
+				position: absolute;
+				top: 50%;
+				left: 0.5rem;
+
+				background-color: #000;
+				transform: translateY(-50%) translateZ(0);
+
+				transition: width 300ms, background-color 300ms;
+			}
+
+			&:hover {
+				&::after {
+					background: var(--accent-color);
+					width: 3.5rem;
+				}
+
+				&::before {
+					border-right-color: var(--accent-color);
+					border-left-color: var(--accent-color);
+				}
+			}
+		}
+
+		.next {
+			&::before {
+				right: 0;
+				left: auto;
+				border-left-width: 1rem;
+				border-left-color: #000;
+				border-right-width: 0;
+			}
+
+			&::after {
+				right: 0.5rem;
+				left: auto;
+			}
+		}
+
+		.counter {
+			display: inline-block;
+			font-family: serif;
+			font-style: italic;
+
+			span {
+				font-size: 3rem;
+
+				&:last-child::before {
+					content: '/';
+					margin: 0 1rem;
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: 550px) {
+		.image {
+			width: 100%;
+		}
+
+		.content {
+			padding-right: 2rem;
+		}
+
+		nav {
+			left: 0;
+			right: auto;
+		}
+	}
+}
+
+@media only screen and (max-width: var(--mobile-width)) {
+	:root {
+		--navbar-height: 5vh;
+	}
+}
+
+footer {
+	background-color: var(--accent-color);
+}

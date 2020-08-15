@@ -1,0 +1,58 @@
+*,
+body,
+html {
+	font-family: 'Merriweather';
+	padding: 0;
+	margin: 0;
+	box-sizing: content-box;
+
+	font-size: calc(4px + 0.45vw);
+
+	overflow-y: hidden;
+}
+
+/* Width */
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: var(--accent-color);
+	border-radius: 10px;
+}
+
+main {
+	height: calc(100vh - var(--navbar-height));
+	overflow-y: auto;
+}
+
+// Reseteo de ul
+ul {
+	list-style-type: none; // Saca el puntito de las listas
+}
+
+// Reseteo de hipervinculos
+a {
+	color: #000;
+	text-decoration: none;
+
+	transition: color 150ms ease-out 0s;
+
+	will-change: color;
+
+	&:hover {
+		color: var(--accent-color);
+	}
+
+	&:active {
+		color: #000;
+	}
+}
+
+// Reseteo de botón
+button {
+	border: none;
+	outline: none;
+	background: transparent;
+}
